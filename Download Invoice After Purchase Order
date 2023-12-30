@@ -1,0 +1,69 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.io.File;
+
+public class DownloadInvoiceTest {
+    public static void main(String[] args) {
+        // Set the path to your ChromeDriver executable
+        System.setProperty("webdriver.chrome.driver", "path_to_chromedriver.exe");
+
+        // Set Chrome options to handle file downloads
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-extensions"); // Disable browser extensions
+        options.addArguments("--start-maximized"); // Maximize browser window
+        options.addArguments("--disable-popup-blocking"); // Disable popup blocking
+
+        // Instantiate ChromeDriver with ChromeOptions
+        WebDriver driver = new ChromeDriver(options);
+
+        // Navigate to the website
+        driver.get("https://automationexercise.com/");
+
+        // Locate the product you want to purchase and add it to the cart
+
+        // Go to the cart page
+        WebElement cartIcon = driver.findElement(By.xpath("//span[@class='cart-contents']"));
+        cartIcon.click();
+
+        // Proceed to the checkout page
+        WebElement checkoutButton = driver.findElement(By.xpath("//a[@class='checkout-button']"));
+        checkoutButton.click();
+
+        // Enter the required customer details and complete the purchase
+
+        // Locate the "My Account" link or button and click on it
+        WebElement myAccountLink = driver.findElement(By.linkText("My Account"));
+        myAccountLink.click();
+
+        // Navigate to the "Orders" page or section
+        WebElement ordersLink = driver.findElement(By.linkText("Orders"));
+        ordersLink.click();
+
+        // Locate the recent order and click on it to view the details
+        WebElement recentOrder = driver.findElement(By.xpath("//table[@class='shop_table my_account_orders']//tbody//tr[1]"));
+        recentOrder.click();
+
+        // Locate the "Download Invoice" link or button and click on it to initiate the download
+        WebElement downloadInvoiceButton = driver.findElement(By.linkText("Download Invoice"));
+        downloadInvoiceButton.click();
+
+        // Wait for the file to download (you can add a sleep or use explicit waits)
+
+        // Verify that the invoice file has been downloaded successfully
+        String downloadPath = "path_to_download_directory";
+        String fileName = "invoice.pdf";
+        File invoiceFile = new File(downloadPath + File.separator + fileName);
+        if (invoiceFile.exists()) {
+            System.out.println("Invoice file has been downloaded successfully.");
+        } else {
+            System.out.println("Failed to download the invoice file.");
+        }
+
+        // Close the browser
+        driver.quit();
+    }
+}
